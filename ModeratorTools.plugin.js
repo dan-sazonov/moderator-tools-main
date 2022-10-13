@@ -18,6 +18,7 @@ var dev = false;
 
 let socket;
 
+
 class ModeratorTools {
 
     getName() {
@@ -172,7 +173,7 @@ class ModeratorTools {
                     }
                 })
         }
-        ;
+
 
         if (!this.getData("user") && global.ZeresPluginLibrary) {
 
@@ -514,7 +515,7 @@ class ModeratorTools {
         } else if (!dev || !this.getData("user")?.token) ZLibrary.PluginUpdater.checkForUpdate(this.getName(), this.getVersion(), "https://raw.githubusercontent.com/Pavel-Boyazov/moderator-tools/main/ModeratorTools.plugin.js");
 
         // Отображение ChangeLog'a
-        if ((this.getData("info")?.version != this.getVersion() || !this.getData("info")?.changeLog) && this.getData("info")) {
+        if ((this.getData("info")?.version !== this.getVersion() || !this.getData("info")?.changeLog) && this.getData("info")) {
             this.showChangeLog()
             this.setData("info", {
                 version: this.getVersion(),
@@ -523,7 +524,7 @@ class ModeratorTools {
             })
         }
 
-        if (!this.getData("user") || JSON.stringify(this.getData("user")) == "{}") return;
+        if (!this.getData("user") || JSON.stringify(this.getData("user")) === "{}") return;
 
         // Автообновление конфига
         let config = JSON.parse(pasteMessage.requestData("https://pavel-boyazov.github.io/settings_03.json"));
@@ -544,7 +545,7 @@ class ModeratorTools {
         }
 
         // Открытие WebSocket'a для принятия форм
-        if (+this.getData("user").staff > 1 && this.getData("user").forms && (socket?.readyState == 2 || socket?.readyState == 3 || !socket)) WS.open()
+        if (+this.getData("user").staff > 1 && this.getData("user").forms && (socket?.readyState === 2 || socket?.readyState === 3 || !socket)) WS.open()
 
         // Создание кнопки для открытия панели
         let textArea = document.querySelector(".sansAttachButton-1ERHue")
@@ -556,7 +557,7 @@ class ModeratorTools {
         openButton.classList = "leftTrayIcon-3kMl25 arrow-3MeJHj button-f2h6uQ lookBlank-21BCro colorBrand-I6CyqQ grow-2sR_-F"
         openButton.onclick = () => {
             if (!opened) {
-                if (document.URL.split('/')[4] != this.getData("server").id) return BdApi.showToast("ModeratorTools недоступен для использования на данном сервере!", {type: "error"});
+                if (document.URL.split('/')[4] !== this.getData("server").id) return BdApi.showToast("ModeratorTools недоступен для использования на данном сервере!", {type: "error"});
                 this.showDashboard()
                 return document.querySelector("#openDashboardButton div svg").style.transform = "rotate(180deg)"
             }
@@ -568,7 +569,7 @@ class ModeratorTools {
         document.querySelector(".sansAttachButton-1ERHue").prepend(openButton)
         if (!opened) document.querySelector("#openDashboardButton div svg").style.transform = ""
         else {
-            if (document.URL.split('/')[4] != this.getData("server").id) {
+            if (document.URL.split('/')[4] !== this.getData("server").id) {
                 opened = false;
                 return BdApi.showToast("ModeratorTools недоступен для использования на данном сервере!", {type: "error"});
             }
@@ -584,7 +585,7 @@ class ModeratorTools {
 
         // Запоминание ID по клику на ник
         document.ondblclick = (e) => {
-            if (e.target.classList.value == "username-h_Y3Us desaturateUserColors-1O-G89 clickable-31pE3P") {
+            if (e.target.classList.value === "username-h_Y3Us desaturateUserColors-1O-G89 clickable-31pE3P") {
                 let avatarURL = e.target.parentNode.parentNode.parentNode.firstChild.getAttribute("src")
                 if (!avatarURL.startsWith("/ass")) {
                     saved_id = avatarURL.split("/")[4]
@@ -611,7 +612,7 @@ class ModeratorTools {
 
     onSwitch() {
         clearTimeout(WS.closeTime)
-        this.start()
+        this.start().then(r => '')
     }
 
     stop() {
@@ -622,7 +623,7 @@ class ModeratorTools {
         document.querySelector("#StopButton")?.remove()
         clearTimeout(WS.closeTime)
         document.querySelector("#acceptForm")?.remove()
-        if (socket?.readyState == 1 || socket?.readyState == 0) WS.close()
+        if (socket?.readyState === 1 || socket?.readyState === 0) WS.close()
         document.ondblclick = {}
     }
 
@@ -730,7 +731,7 @@ class ModeratorTools {
             BdApi.showToast("Форма принята", {type: "success"});
             clearTimeout(WS.closeTime);
             document.querySelector("#acceptForm").remove();
-            if (document.URL.split('/')[4] != this.getData("server").id) return;
+            if (document.URL.split('/')[4] !== this.getData("server").id) return;
             return opened ? this.showDashboard() : null;
         });
         declineButton.addEventListener("click", () => {
@@ -738,7 +739,7 @@ class ModeratorTools {
             BdApi.showToast("Форма отказана", {type: "error"});
             clearTimeout(WS.closeTime);
             document.querySelector("#acceptForm").remove();
-            if (document.URL.split('/')[4] != this.getData("server").id) return;
+            if (document.URL.split('/')[4] !== this.getData("server").id) return;
             return opened ? this.showDashboard() : null;
         });
         dashboard.append(formText);
@@ -757,9 +758,9 @@ class ModeratorTools {
                 className: "markdown-19oyJN section-header",
                 style: {fontSize: "125%", cursor: "help", userSelect: "none", margin: "5px"},
                 onClick: (e) => {
-                    if (document.querySelector(".rules-container .rules-section[style*='display: block']") && document.querySelector(".rules-container .rules-section[style*='display: block']") != e.target.nextElementSibling)
+                    if (document.querySelector(".rules-container .rules-section[style*='display: block']") && document.querySelector(".rules-container .rules-section[style*='display: block']") !== e.target.nextElementSibling)
                         document.querySelector(".rules-container .rules-section[style*='display: block']").style.display = "none";
-                    e.target.nextElementSibling.style.display = e.target.nextElementSibling.style.display == "none" ? "block" : "none"
+                    e.target.nextElementSibling.style.display = e.target.nextElementSibling.style.display === "none" ? "block" : "none"
                 }
             }, header))
             points.push(BdApi.React.createElement("div", {
@@ -794,7 +795,7 @@ class ModeratorTools {
                 confirmText: "Отправить",
                 cancelText: "Назад",
                 onConfirm: _ => {
-                    if (sendable.length == 0) return BdApi.showToast("Отсутствуют выбранные элементы!", {type: "warning"});
+                    if (sendable.length === 0) return BdApi.showToast("Отсутствуют выбранные элементы!", {type: "warning"});
                     const buttonsConfig = new ModeratorTools().getData("buttons")
                     const commandConfig = buttonsConfig["rules"]
                     if (help) return pasteMessage.send(commandConfig, {user, raw_content: sendable.join("\n")});
@@ -805,7 +806,7 @@ class ModeratorTools {
 
         // Поиск
         document.querySelector("input[placeholder=Поиск]").addEventListener("input", e => {
-            if (e.target.value.length == 0 || e.target.value.length == 1) {
+            if (e.target.value.length === 0 || e.target.value.length === 1) {
                 document.querySelectorAll(".rules-container .rules-section").forEach(section => {
                     section.style.display = "none";
                     section.childNodes.forEach(element => {
@@ -838,7 +839,7 @@ class ModeratorTools {
         keyWidget.disabled = true
         keyWidget.style.width = "140px";
         keyWidget.style.marginRight = "15px";
-        if (key != undefined) keyWidget.value = key;
+        if (key !== undefined) keyWidget.value = key;
         hbox.appendChild(keyWidget);
 
         let textWidget = GUI.newTextarea("Текст", button.content?.trim());
@@ -908,11 +909,11 @@ class ModeratorTools {
             settings.appendChild(token);
             let button = GUI.setRed(GUI.newButton("Показать токен", false))
             button.onclick = () => {
-                if (document.querySelector("input[type=password")) {
-                    document.querySelector("input[type=password").type = "token"
+                if (document.querySelector("input[type=password]")) {
+                    document.querySelector("input[type=password]").type = "token"
                     button.innerText = "Скрыть токен"
-                } else if (document.querySelector("input[type=token")) {
-                    document.querySelector("input[type=token").type = "password"
+                } else if (document.querySelector("input[type=token]")) {
+                    document.querySelector("input[type=token]").type = "password"
                     button.innerText = "Показать токен"
                 }
             }
@@ -982,9 +983,9 @@ class ModeratorTools {
         actions.appendChild(save);
         save.onclick = () => {
             let allInputs = document.querySelectorAll(".inputDefault-3FGxgL")
-            for (var i = 0; i < allInputs.length; i++) if (allInputs[i]?.value == "") return BdApi.showToast("Необходимо заполнить все поля!", {type: "error"})
+            for (var i = 0; i < allInputs.length; i++) if (allInputs[i]?.value === "") return BdApi.showToast("Необходимо заполнить все поля!", {type: "error"})
             allInputs = document.querySelectorAll(".scrollbarGhostHairline-2LpzZ9")
-            for (var i = 0; i < allInputs.length; i++) if (allInputs[i]?.value == "") return BdApi.showToast("Необходимо заполнить все поля!", {type: "error"})
+            for (var i = 0; i < allInputs.length; i++) if (allInputs[i]?.value === "") return BdApi.showToast("Необходимо заполнить все поля!", {type: "error"})
             try {
                 // Установить должность и префикс
                 this.setData("user", {
@@ -1015,15 +1016,15 @@ const pasteMessage = {
         if (req.status < 400)
             return undefined;
 
-        if (req.status == 401)
+        if (req.status === 401)
             return "Invalid AuthToken";
 
-        if (req.status == 429)
+        if (req.status === 429)
             return "Вы не можете так часто отправлять сообщения";
 
         let json = JSON.parse(req.response);
         for (const s of ["errors", "custom_status", "text", "_errors", 0, "message"])
-            if ((json == undefined) || ((json = json[s]) == undefined))
+            if ((json === undefined) || ((json = json[s]) === undefined))
                 return "Внутренняя ошибка. Сообщите мне vk.com/Pavel_Boyazov";
 
         return json;
@@ -1036,7 +1037,7 @@ const pasteMessage = {
         if (URL.startsWith("https://api.github.com/")) {
             req.setRequestHeader("authorization", "token " + new ModeratorTools().getData("user")?.token);
         }
-        ;
+
         req.send();
         req.onload = () => {
             let err = pasteMessage.strerror(req);
@@ -1049,11 +1050,11 @@ const pasteMessage = {
         let req = new XMLHttpRequest();
         let method = "POST"
         let url = `/api/v9/channels/${args.channel || ZLibrary.DiscordModules.SelectedChannelStore.getChannelId()}/messages`
-        if (type == "role") {
+        if (type === "role") {
             method = "PUT"
             url = `/api/v9/guilds/${document.URL.split('/')[4]}/members/${args.user}/roles/${args.role}`
         }
-        if (type == "reaction") {
+        if (type === "reaction") {
             method = "PUT"
             url = `/api/v9/channels/${args.channel}/messages/${args.message}/reactions/${args.reaction}/@me`
         }
@@ -1072,25 +1073,25 @@ const pasteMessage = {
         let content = command.content || values.raw_content
 
         if (!content) return BdApi.showToast(`Moderator Tools: Внутренняя ошибка. Сообщите мне vk.com/Pavel_Boyazov`, {type: "error"});
-        if (command.type == "messages") {
+        if (command.type === "messages") {
             let strings = content.split("\n")
             new ModeratorTools().stopButton()
             var i = -1;
             var channel = ZLibrary.DiscordModules.SelectedChannelStore.getChannelId()
             this.flood = setInterval(() => {
                 i++
-                if (i == strings.length) {
+                if (i === strings.length) {
                     clearInterval(this.flood)
                     this.flood = undefined;
                     document.querySelector("#StopButton")?.remove()
                     BdApi.showToast("Флуд окончен!", {type: "success"})
-                    if (document.URL.split('/')[4] != new ModeratorTools().getData("server").id) return BdApi.showToast("ModeratorTools недоступен для использования на данном сервере!", {type: "error"});
+                    if (document.URL.split('/')[4] !== new ModeratorTools().getData("server").id) return BdApi.showToast("ModeratorTools недоступен для использования на данном сервере!", {type: "error"});
                     return new ModeratorTools().showDashboard()
                 }
                 pasteMessage.request(command.type, {channel}).send(JSON.stringify({content: strings[i]}))
             }, 3000)
         }
-        if (command.type == "message" || command.type == "rules") {
+        if (command.type === "message" || command.type === "rules") {
             content = content
                 .replace("{user}", values.user || "")
                 .replace("{time}", values.time || "")
@@ -1099,12 +1100,12 @@ const pasteMessage = {
             if (command.form && userConfig.staff < command.staff) {
                 content = `\\${content} ${userConfig.prefix}`
             }
-            if (command.target == "help" && values.user) {
+            if (command.target === "help" && values.user) {
                 content = `<@${values.user}>, ${content}`
             }
             return pasteMessage.request(command.type).send(JSON.stringify({content}))
         }
-        if (command.type == "role") return pasteMessage.request(command.type, {user: values.user, role: content}).send()
+        if (command.type === "role") return pasteMessage.request(command.type, {user: values.user, role: content}).send()
     },
 
     checkUser: function (user, func, ...args) {
@@ -1112,7 +1113,7 @@ const pasteMessage = {
         req.open("GET", `/api/v9/guilds/${new ModeratorTools().getData("server").id}/members/${user}`, false);
         req.setRequestHeader("authorization", this.authToken);
         req.send();
-        if (req.status == 404) return BdApi.showConfirmationModal("Предупреждение!",
+        if (req.status === 404) return BdApi.showConfirmationModal("Предупреждение!",
             [`Пользователь с ID ${user} отсутствует на сервере! Вы уверены что хотите отправить форму?`],
             {
                 cancelText: "Отмена",
@@ -1121,7 +1122,7 @@ const pasteMessage = {
                 danger: true
             }
         );
-        if (req.status == 400) return BdApi.showToast("Указан неверный ID!", {type: "error"});
+        if (req.status === 400) return BdApi.showToast("Указан неверный ID!", {type: "error"});
         func(...args)
     }
 };
@@ -1241,8 +1242,8 @@ const GUI = {
 
         button.onclick = () => {
             let inputs = [];
-            if (commandConfig.type == "messages" && !commandConfig.content) inputs.push("Многострочный текст", GUI.newReactTextarea(commandConfig.placeholder, 10))
-            if (commandConfig.type != "messages" && (commandConfig.content?.includes('{user}') || commandConfig.target == "help")) inputs.push(commandConfig.target == "help" ? "Кому нужна помощь?" : "Пользователь", GUI.newReactInput("id пользователя", "user", saved_id, Boolean(saved_id)))
+            if (commandConfig.type === "messages" && !commandConfig.content) inputs.push("Многострочный текст", GUI.newReactTextarea(commandConfig.placeholder, 10))
+            if (commandConfig.type !== "messages" && (commandConfig.content?.includes('{user}') || commandConfig.target === "help")) inputs.push(commandConfig.target === "help" ? "Кому нужна помощь?" : "Пользователь", GUI.newReactInput("id пользователя", "user", saved_id, Boolean(saved_id)))
             commandConfig.content?.includes('{time}') ? inputs.push("Срок", GUI.newReactInput("срок", "time")) : null;
             commandConfig.content?.includes('{reason}') ? inputs.push("Причина", GUI.newReactHBox(
                 GUI.newReactInput("причина", "reason"),
@@ -1258,18 +1259,18 @@ const GUI = {
                     "min-width": "15px"
                 }
             }));
-            if (inputs.length == 0) return pasteMessage.send(commandConfig)
+            if (inputs.length === 0) return pasteMessage.send(commandConfig)
             BdApi.showConfirmationModal(commandConfig.title,
                 inputs,
                 {
                     confirmText: "Отправить",
                     cancelText: "Назад",
                     onConfirm: _ => {
-                        let allInputs = commandConfig.type == "messages" ? document.querySelector(".input-2g-os5") : document.querySelectorAll(".inputDefault-3FGxgL")
+                        let allInputs = commandConfig.type === "messages" ? document.querySelector(".input-2g-os5") : document.querySelectorAll(".inputDefault-3FGxgL")
                         let values = {}
-                        if (commandConfig.type == "messages") {
+                        if (commandConfig.type === "messages") {
                             values["raw_content"] = allInputs.value.trim()
-                            if (values["raw_content"] == "") return BdApi.showToast("Необходимо заполнить все поля!", {type: "error"})
+                            if (values["raw_content"] === "") return BdApi.showToast("Необходимо заполнить все поля!", {type: "error"})
                             if (!values["raw_content"].toLowerCase().startsWith(commandConfig.check)) return BdApi.showToast("Введены данные неверного формата!", {type: "error"})
                             let channel = JSON.parse(pasteMessage.requestData(`/api/v9/channels/${ZLibrary.DiscordModules.SelectedChannelStore.getChannelId()}`))
                             BdApi.showConfirmationModal("Предупреждение!", [`Вы уверены что хотите запустить флудер в канал **#${channel.name}**?`], {
@@ -1280,19 +1281,19 @@ const GUI = {
                                     return pasteMessage.send(commandConfig, values)
                                 }
                             })
-                        } else if (commandConfig.type == "rules") {
+                        } else if (commandConfig.type === "rules") {
                             allInputs.forEach(input => values[input.name] = input.value.trim())
-                            if (values["user"] != "") return pasteMessage.checkUser(values["user"], new ModeratorTools().showRules, true, values["user"])
+                            if (values["user"] !== "") return pasteMessage.checkUser(values["user"], new ModeratorTools().showRules, true, values["user"])
                             return new ModeratorTools().showRules(true)
                         } else {
                             allInputs.forEach(input => values[input.name] = input.value.trim())
                             if (
-                                values["user"] == "" &&
-                                (commandConfig.target != "help" ||
-                                    commandConfig.type != "message")
+                                values["user"] === "" &&
+                                (commandConfig.target !== "help" ||
+                                    commandConfig.type !== "message")
                             ) return BdApi.showToast("Необходимо заполнить все поля!", {type: "error"})
-                            if (values["time"] == "" || values["link"] == "") return BdApi.showToast("Необходимо заполнить все поля!", {type: "error"})
-                            if (values["user"] != "") return pasteMessage.checkUser(values["user"], pasteMessage.send, commandConfig, values)
+                            if (values["time"] === "" || values["link"] === "") return BdApi.showToast("Необходимо заполнить все поля!", {type: "error"})
+                            if (values["user"] !== "") return pasteMessage.checkUser(values["user"], pasteMessage.send, commandConfig, values)
                             return pasteMessage.send(commandConfig, values);
                         }
                     }
@@ -1334,18 +1335,18 @@ const WS = {
         socket = new WebSocket("wss://gateway.discord.gg")
         socket.onmessage = (msg) => {
             let data = JSON.parse(msg.data)
-            if (data.op == 9) {
+            if (data.op === 9) {
                 WS.i++
-                if (WS.i == 10) {
+                if (WS.i === 10) {
                     return console.error('[WebSocket] Превышено количество ошибочных подключений!')
                 }
                 console.log('[WebSocket] Reconnecting!')
                 WS.close()
                 WS.open()
             }
-            if (data.op == 10) {
+            if (data.op === 10) {
                 WS.interval = setInterval(() => {
-                    if (socket.readyState == 2 || socket.readyState == 3) return clearInterval(WS.interval)
+                    if (socket.readyState === 2 || socket.readyState === 3) return clearInterval(WS.interval)
                     socket.send(JSON.stringify({
                         op: 1,
                         d: 2
@@ -1353,17 +1354,17 @@ const WS = {
                     console.log("[Hearbeat] Sended!")
                 }, data.d.heartbeat_interval)
             }
-            if (data.op == 11) return console.log('[Heartbeat] Recieved!')
+            if (data.op === 11) return console.log('[Heartbeat] Recieved!')
             let guild = new ModeratorTools().getData("server")
-            if (data.d.guild_id != guild.id || data.d.channel_id != guild.moderChat) return
-            if (data.t == "MESSAGE_CREATE" && !data.d.author.bot) {
+            if (data.d.guild_id !== guild.id || data.d.channel_id !== guild.moderChat) return
+            if (data.t === "MESSAGE_CREATE" && !data.d.author.bot) {
                 if (document.querySelector("#StopButton")) return
                 commands.forEach(command => {
                     if (!command[1].form || command[1].staff <= 1 || +new ModeratorTools().getData("user").staff < +command[1].staff) return
                     let key = command[1].content.split(" ")
                     if (data.d.content.startsWith(`\\${key[0]}`) || data.d.content.startsWith(`${key[0]}`)) {
                         if (data.d.member.roles.some(role => guild.canAcceptForm.includes(role))) {
-                            if (document.querySelector("#acceptForm") && WS.cache == data.d.content) {
+                            if (document.querySelector("#acceptForm") && WS.cache === data.d.content) {
                                 document.querySelector("#acceptForm").remove()
                                 clearTimeout(WS.closeTime)
                                 return BdApi.showToast("Форма принята другим модератором", {type: "error"})
@@ -1375,9 +1376,8 @@ const WS = {
                         WS.closeTime = setTimeout(() => {
                             document.querySelector("#acceptForm")?.remove()
                             BdApi.showToast("Форма пропущена", {type: "error"})
-                            if (document.URL.split('/')[4] != this.getData("server").id) return;
+                            if (document.URL.split('/')[4] !== this.getData("server").id) return;
                             if (opened) new ModeratorTools().showDashboard()
-                            return
                         }, 10000)
                     }
                 })
